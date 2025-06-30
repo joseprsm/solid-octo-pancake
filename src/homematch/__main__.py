@@ -2,9 +2,9 @@ import os
 
 import click
 
+from homematch.embeddings.store import construct_vector_store, convert_to_document
 from homematch.generate import generate_listings, generate_neighborhoods
 from homematch.schemas import Listings, Neighborhoods
-from homematch.store import convert_to_document, vector_store
 from homematch.utils import load_jsonl, write_jsonl
 
 
@@ -76,9 +76,18 @@ def generate(
 @click.option(
     "--inputs", default="data/listings.jsonl", help="Input file with listings"
 )
-def embeddings(inputs: str = "data/listings.jsonl"):
+@click.option("--colection-name", "--collection", "collection_name", default="listings")
+@click.option("--persist-directory", "--directory", default="./chroma")
+def embeddings(
+    inputs: str = "data/listings.jsonl",
+    collection_name: str = "listings",
+    persist_directory: str = "./chroma",
+):
     listings = load_jsonl(inputs)
     documents = map(convert_to_document, listings)
+    vector_store = construct_vector_store(
+        collection_name, persist_directory=persist_directory
+    )
     vector_store.add_documents(documents)
 
 
