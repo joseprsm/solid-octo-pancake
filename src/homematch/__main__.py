@@ -2,10 +2,9 @@ import os
 
 import click
 
-from homematch.embeddings.store import construct_vector_store, convert_to_document
+from homematch.embeddings.store import VectorStore
 from homematch.generate import generate_listings, generate_neighborhoods
 from homematch.schemas import Listings, Neighborhoods
-from homematch.utils import load_jsonl, write_jsonl
 
 
 @click.group
@@ -69,7 +68,7 @@ def generate(
             max_listings=max_listings,
         )
 
-    write_jsonl(output, listings)
+    listings.write(output)
 
 
 @cli.command
@@ -83,12 +82,11 @@ def embeddings(
     collection_name: str = "listings",
     persist_directory: str = "./chroma",
 ):
-    listings = load_jsonl(inputs)
-    documents = map(convert_to_document, listings)
-    vector_store = construct_vector_store(
-        collection_name, persist_directory=persist_directory
+    listings = Listings.load(inputs)
+    vector_store = VectorStore(
+        collection_name=collection_name, persist_directory=persist_directory
     )
-    vector_store.add_documents(documents)
+    vector_store.add_listings(listings)
 
 
 if __name__ == "__main__":
