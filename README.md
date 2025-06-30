@@ -26,7 +26,29 @@ export OPENAI_MODEL=gpt-3.5-turbo
 
 ## Usage
 
-To run the HomeMatch example:
+You can use HomeMatch via the CLI after installing dependencies and setting environment variables.
+
+### Run the HomeMatch CLI
+
+To see available commands:
 ```sh
-python -m homematch
+homematch --help
+```
+
+### Generate listings example
+
+Generate listings with default options:
+```sh
+homematch generate
+```
+
+Or with custom options:
+```sh
+homematch generate --n-neighborhoods 5 --n-quirks 4 --min-listings 2 --max-listings 10 --output data/listings.jsonl
+```
+
+See all available commands and options with:
+```sh
+homematch --help
+homematch generate --help
 ```
