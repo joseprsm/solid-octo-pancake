@@ -1,11 +1,10 @@
 from random import randint
 
-from homematch import LLM
+from homematch import model
 from homematch.schemas import Listings, Neighborhoods
 
 
 def generate_neighborhoods(k: int = 3, n_quirks: int = 3) -> Neighborhoods:
-    model = LLM()
     prompt = (
         'You\'re generating {k} neighborhoods for a fictional town. Each of the neighborhoods should be a bit "off", but otherwise extremely liveable.'
         "Each neighborhood should have a unique name, a description, and a list of unique characteristics or quirks. "
@@ -29,7 +28,6 @@ def generate_listings(
     min_listings: int = 4,
     max_listings: int = 7,
 ):
-    model = LLM()
     prompt = (
         "You're generating {k} real estate listings for a fictional town. "
         "The listing is in the {neighborhood} neighborhood. "

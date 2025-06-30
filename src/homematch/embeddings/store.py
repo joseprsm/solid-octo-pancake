@@ -3,7 +3,7 @@ import json
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
 
-from homematch import METADATA_FIELDS, TEXT_FIELDS, Embeddings
+from homematch import METADATA_FIELDS, TEXT_FIELDS, embeddings
 from homematch.schemas import Listing, Listings
 
 
@@ -19,7 +19,7 @@ class VectorStore(Chroma):
         self.embedding_fields = embedding_fields or TEXT_FIELDS
         self.metadata_fields = metadata_fields or METADATA_FIELDS
         super().__init__(
-            embedding_function=Embeddings(), collection_name=collection_name**kwargs
+            embedding_function=embeddings, collection_name=collection_name**kwargs
         )
 
     def add_listings(self, listings: Listings):

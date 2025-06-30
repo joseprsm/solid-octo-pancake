@@ -1,4 +1,6 @@
 import json
+import random
+import string
 
 
 def load_jsonl(file_path: str) -> list[dict]:
@@ -15,3 +17,7 @@ def write_jsonl(file_path: str, listings: list[dict]) -> None:
     with open(file_path, "w") as f:
         for listing in listings:
             f.write(listing + "\n")
+
+
+def generate_random_string(k: int = 16):
+    return "".join(random.choices(string.ascii_letters, k=k))

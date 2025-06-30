@@ -1,19 +1,21 @@
 import os
 
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from openai import OpenAI
 
-OPENAI_API_BASE = os.getenv("OPENAI_API_BASE", "https://openai.vocareum.com/v1")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-CHAT_MODEL = os.getenv("OPENAI_MODEL", "gpt-4.1-nano")
+from homematch.utils import generate_random_string
 
+OPENAI_API_BASE = os.getenv("OPENAI_API_BASE", "http://localhost:11434/v1")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", generate_random_string())
 
-class LLM(ChatOpenAI):
-    openai_api_base: str = OPENAI_API_BASE
-    api_key: str = OPENAI_API_KEY
-    model: str = CHAT_MODEL
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "granite-embedding")
+CHAT_MODEL = os.getenv("CHAT_MODEL", "qwen3:4b")
 
+_client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_API_BASE)
 
-class Embeddings(OpenAIEmbeddings):
-    openai_api_base: str = OPENAI_API_BASE
-    api_key: str = OPENAI_API_KEY
-    model: str = "text-embedding-3-small"
+model = ChatOpenAI(model=CHAT_MODEL, client=_client.chat.completions)
+embeddings = OpenAIEmbeddings(
+    model=EMBEDDING_MODEL,
+    client=_client.embeddings,
+    check_embedding_ctx_length="localhost" not in OPENAI_API_BASE,
+)
