@@ -3,7 +3,7 @@ import json
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
 
-from homematch import METADATA_FIELDS, TEXT_FIELDS, Embeddings
+from homematch import METADATA_FIELDS, TEXT_FIELDS, embeddings
 from homematch.schemas import Listing
 
 
@@ -20,7 +20,7 @@ def construct_vector_store(
     collection_name: str = "listings", persist_directory: str = "./chroma"
 ) -> None:
     return Chroma(
-        embedding_function=Embeddings(),
+        embedding_function=embeddings,
         persist_directory=persist_directory,
         collection_name=collection_name,
     )
