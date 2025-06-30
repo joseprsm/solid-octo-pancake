@@ -15,9 +15,15 @@ def cli():
 
 @cli.command()
 @click.option(
-    "--neighborhoods", "-n", default=3, help="Number of neighborhoods to generate"
+    "--neighborhoods",
+    "-n",
+    "n_neighborhoods",
+    default=3,
+    help="Number of neighborhoods to generate",
 )
-@click.option("--quirks", "-q", default=3, help="Number of quirks per neighborhood")
+@click.option(
+    "--quirks", "-q", "n_quirks", default=3, help="Number of quirks per neighborhood"
+)
 @click.option(
     "--k",
     type=int,
@@ -67,6 +73,9 @@ def generate(
 
 
 @cli.command
+@click.option(
+    "--inputs", default="data/listings.jsonl", help="Input file with listings"
+)
 def embeddings(inputs: str = "data/listings.jsonl"):
     listings = load_jsonl(inputs)
     documents = map(convert_to_document, listings)
