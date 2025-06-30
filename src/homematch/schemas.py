@@ -2,6 +2,8 @@ import os
 
 from pydantic import BaseModel, Field
 
+from homematch.utils import load_jsonl, write_jsonl
+
 
 class _BaseList(BaseModel):
     root: list
@@ -59,3 +61,12 @@ class Listings(_BaseList):
         default=[],
         description="A list of real estate listings, each with a description, price, number of bedrooms, bathrooms, and size",
     )
+
+    @classmethod
+    def load(cls, file_path: str) -> "Listings":
+        listings = load_jsonl(file_path)
+        return cls(root=listings)
+
+    def write(self, file_path: str):
+        listings: list[dict] = self.model_dump(mode="json")["root"]
+        write_jsonl(file_path, listings)
