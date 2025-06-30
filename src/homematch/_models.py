@@ -15,5 +15,7 @@ _client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_API_BASE)
 
 model = ChatOpenAI(model=CHAT_MODEL, client=_client.chat.completions)
 embeddings = OpenAIEmbeddings(
-    model=EMBEDDING_MODEL, client=_client.embeddings, check_embedding_ctx_length=False
+    model=EMBEDDING_MODEL,
+    client=_client.embeddings,
+    check_embedding_ctx_length="localhost" not in OPENAI_API_BASE,
 )
