@@ -1,4 +1,5 @@
 import json
+import os
 
 import click
 
@@ -13,7 +14,7 @@ def cli():
 
 @cli.command()
 @click.option(
-    "--n-neighborhoods", default=3, help="Number of neighborhoods to generate"
+    "--n-neighborhoods", "-n", default=3, help="Number of neighborhoods to generate"
 )
 @click.option("--n-quirks", default=3, help="Number of quirks per neighborhood")
 @click.option(
@@ -41,7 +42,7 @@ def generate(
     n_neighborhoods: int = 3,
     n_quirks: int = 3,
     k: int = None,
-    output: str = "data/listings.jsonl",
+    output: str = os.path.join("data", "listings.jsonl"),
     min_listings: int = 3,
     max_listings: int = 7,
 ):
@@ -62,3 +63,7 @@ def generate(
     with open(output, "w") as f:
         for listing in listings:
             f.write(json.dumps(listing.model_dump(mode="json")) + "\n")
+
+
+if __name__ == "__main__":
+    cli()
