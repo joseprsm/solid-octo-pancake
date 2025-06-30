@@ -8,10 +8,11 @@ def generate_neighborhoods(k: int = 3, n_quirks: int = 3) -> Neighborhoods:
     prompt = (
         'You\'re generating {k} neighborhoods for a fictional town. Each of the neighborhoods should be a bit "off", but otherwise extremely liveable.'
         "Each neighborhood should have a unique name, a description, and a list of unique characteristics or quirks. "
+        "Do not make them magical or fantasy-like, but rather just a bit quirky. "
+        "Although the neighborhoods are fictional, they should be realistic and relatable. "
         "The description should be a few sentences long, and make the neighborhood sound appealing."
         "Generate at list {n_quirks} quirks for each neighborhood. "
-        "Be as quirky and creative as possible."
-        "Make them silly."
+        "Make them as silly as possible. "
     )
     return model.with_structured_output(Neighborhoods).invoke(
         prompt.format(k=k, n_quirks=n_quirks)
