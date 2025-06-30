@@ -23,8 +23,8 @@ def generate_listings(
     neighbor_description: str,
     neighborhood_quirks: list[str],
     k: int = None,
-    min_listings: int = 2,
-    max_listings: int = 5,
+    min_listings: int = 4,
+    max_listings: int = 7,
 ):
     prompt = (
         "You're generating {k} real estate listings for a fictional town. "
