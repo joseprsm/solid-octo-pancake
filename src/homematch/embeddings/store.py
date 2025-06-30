@@ -22,7 +22,7 @@ class VectorStore(Chroma):
             embedding_function=Embeddings(), collection_name=collection_name**kwargs
         )
 
-    def add_listing(self, listings: Listings):
+    def add_listings(self, listings: Listings):
         documents = list(map(self._convert_to_document, listings))
         return self.add_documents(documents)
 
