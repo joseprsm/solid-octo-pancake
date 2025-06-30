@@ -12,6 +12,7 @@ def generate_neighborhoods(k: int = 3, n_quirks: int = 3) -> Neighborhoods:
         "Do not make them magical or fantasy-like, but rather just a bit quirky. "
         "Although the neighborhoods are fictional, they should be realistic and relatable. "
         "The description should be a few sentences long, and make the neighborhood sound appealing."
+        "Include how urban the neighborhood is, how walkable it is, and what kind of people live there. "
         "Generate at list {n_quirks} quirks for each neighborhood. "
         "Make them as silly as possible. "
     )
@@ -36,6 +37,7 @@ def generate_listings(
         "The neighborhood has the following unique characteristics or quirks: \n {quirks}\n "
         "Write in a warm, inviting tone suitable for real estate buyers. The description should highlight attractive features and evoke a strong sense of place."
         "Make up features for the listings that are consistent with the neighborhood quirks. Don't be afraid of being a bit silly. "
+        "When describing the listing, make up facts like the proximity to local attractions, the style of the house, and any unique features it has. "
         "Include at least one of the neighborhood quirks in each listing. "
         "Always make up something unique about the listing."
         "The description should a few sentences long. "
