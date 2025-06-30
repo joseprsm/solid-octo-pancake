@@ -1,1 +1,3 @@
-from ._model import Model as Model
+from ._model import Model
+
+model = Model()
