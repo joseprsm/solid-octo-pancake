@@ -30,6 +30,9 @@ class Listing(BaseModel):
     neighborhood: str = Field(
         description="The name of the neighborhood where the listing is located"
     )
+    neighborhood_description: str = Field(
+        description="A brief description of the neighborhood where the listing is located"
+    )
 
 
 class Listings(BaseModel):
