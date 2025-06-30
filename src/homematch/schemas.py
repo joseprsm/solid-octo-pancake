@@ -27,6 +27,9 @@ class Listing(BaseModel):
     size: int = Field(
         description=f"The size of the listing in squared {os.environ.get('SIZE_UNIT', 'meters')}"
     )
+    neighborhood: str = Field(
+        description="The name of the neighborhood where the listing is located"
+    )
 
 
 class Listings(BaseModel):
