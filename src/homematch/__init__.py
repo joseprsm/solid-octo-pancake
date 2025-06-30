@@ -1,3 +1,5 @@
-from ._model import Model
+from ._models import LLM as LLM
+from ._models import Embeddings as Embeddings
 
-model = Model()
+TEXT_FIELDS = ["description", "neighborhood_description"]
+METADATA_FIELDS = ["neighborhood", "price", "bedrooms", "bathrooms", "size"]

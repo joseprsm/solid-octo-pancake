@@ -3,6 +3,24 @@ import os
 from pydantic import BaseModel, Field
 
 
+class _BaseList(BaseModel):
+    root: list
+
+    def __iter__(self):
+        return iter(self.root)
+
+    def __len__(self):
+        return len(self.root)
+
+    def __getitem__(self, index: int):
+        return self.root[index]
+
+    def __add__(self, other: "_BaseList") -> "_BaseList":
+        if isinstance(other, list):
+            other = _BaseList(root=other)
+        return _BaseList(root=self.root + other.root)
+
+
 class Neighborhood(BaseModel):
     name: str = Field(description="The name of the neighborhood")
     description: str = Field(description="A brief description of the neighborhood")
@@ -11,9 +29,10 @@ class Neighborhood(BaseModel):
     )
 
 
-class Neighborhoods(BaseModel):
+class Neighborhoods(_BaseList):
     root: list[Neighborhood] = Field(
-        description="A list of neighborhoods, each with a name, description, and unique quirks"
+        default=[],
+        description="A list of neighborhoods, each with a name, description, and unique quirks",
     )
 
 
@@ -35,7 +54,8 @@ class Listing(BaseModel):
     )
 
 
-class Listings(BaseModel):
+class Listings(_BaseList):
     root: list[Listing] = Field(
-        description="A list of real estate listings, each with a description, price, number of bedrooms, bathrooms, and size"
+        default=[],
+        description="A list of real estate listings, each with a description, price, number of bedrooms, bathrooms, and size",
     )

@@ -2,13 +2,19 @@
 
 ## Getting Started
 
+### Prerequisites
+- [uv](https://github.com/astral-sh/uv) must be installed. You can install it with:
+  ```sh
+  pip install uv
+  ```
+
 ### Installation
 1. Clone the repository:
    ```sh
    git clone git@github.com:yourusername/building-generative-ai-solutions.git
    cd building-generative-ai-solutions
    ```
-2. Install dependencies with [uv](https://github.com/astral-sh/uv):
+2. Install dependencies with uv:
    ```sh
    uv sync
    ```
