@@ -3,7 +3,7 @@ import os
 
 import click
 
-from homematch.gen import generate_listings, generate_neighborhoods
+from homematch.generate import generate_listings, generate_neighborhoods
 from homematch.schemas import Listing, Neighborhoods
 
 
