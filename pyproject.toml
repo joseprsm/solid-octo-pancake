@@ -8,3 +8,9 @@ dependencies = [
     "langchain>=0.3.26",
     "langchain-openai>=0.3.27",
 ]
+
+[dependency-groups]
+dev = [
+    "isort>=6.0.1",
+    "ruff>=0.12.1",
+]
