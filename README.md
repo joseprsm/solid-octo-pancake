@@ -47,6 +47,8 @@ Generate listings with default options:
 ```sh
 homematch generate
 ```
+Or use make
+make generate
 
 Or with custom options:
 ```sh
@@ -57,4 +59,23 @@ See all available commands and options with:
 ```sh
 homematch --help
 homematch generate --help
+```
+
+### Generate embeddings example
+
+Generate embeddings with default options:
+```sh
+homematch embeddings
+```
+Or use make
+make embeddings  # This will run both homematch generate and homematch embeddings
+
+Or with custom options:
+```sh
+homematch embeddings --input data/listings.jsonl
+```
+
+See all available options with:
+```sh
+homematch embeddings --help
 ```
