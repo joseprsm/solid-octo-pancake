@@ -4,7 +4,8 @@ import click
 
 from homematch.generate import generate_listings, generate_neighborhoods
 from homematch.schemas import Listings, Neighborhoods
-from homematch.utils import write_jsonl
+from homematch.store import convert_to_document, vector_store
+from homematch.utils import load_jsonl, write_jsonl
 
 
 @click.group
@@ -14,9 +15,9 @@ def cli():
 
 @cli.command()
 @click.option(
-    "--n-neighborhoods", "-n", default=3, help="Number of neighborhoods to generate"
+    "--neighborhoods", "-n", default=3, help="Number of neighborhoods to generate"
 )
-@click.option("--n-quirks", default=3, help="Number of quirks per neighborhood")
+@click.option("--quirks", "-q", default=3, help="Number of quirks per neighborhood")
 @click.option(
     "--k",
     type=int,
@@ -29,12 +30,14 @@ def cli():
 @click.option(
     "--min-listings",
     "--min",
+    "-m",
     default=3,
     help="Minimum number of listings to generate per neighborhood",
 )
 @click.option(
     "--max-listings",
     "--max",
+    "-M",
     default=7,
     help="Maximum number of listings to generate per neighborhood",
 )
@@ -61,6 +64,13 @@ def generate(
         )
 
     write_jsonl(output, listings)
+
+
+@cli.command
+def embeddings(inputs: str = "data/listings.jsonl"):
+    listings = load_jsonl(inputs)
+    documents = map(convert_to_document, listings)
+    vector_store.add_documents(documents)
 
 
 if __name__ == "__main__":
