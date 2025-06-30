@@ -1,0 +1,20 @@
+import json
+
+from homematch.schemas import Listings
+
+
+def load_jsonl(file_path: str) -> list[dict]:
+    def load_line(line: str) -> dict:
+        return json.loads(line.strip())
+
+    with open(file_path, "r") as f:
+        return map(load_line, f.readlines())
+
+
+def write_jsonl(file_path: str, listings: Listings) -> None:
+    listings: list[dict] = listings.model_dump(mode="json")["root"]
+    listings: list[str] = map(json.dumps, listings)
+
+    with open(file_path, "w") as f:
+        for listing in listings:
+            f.write(listing + "\n")

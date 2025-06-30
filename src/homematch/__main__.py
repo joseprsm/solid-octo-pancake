@@ -1,10 +1,10 @@
-import json
 import os
 
 import click
 
 from homematch.generate import generate_listings, generate_neighborhoods
 from homematch.schemas import Listings, Neighborhoods
+from homematch.utils import write_jsonl
 
 
 @click.group
@@ -60,9 +60,7 @@ def generate(
             max_listings=max_listings,
         )
 
-    with open(output, "w") as f:
-        for listing in listings:
-            f.write(json.dumps(listing.model_dump(mode="json")) + "\n")
+    write_jsonl(output, listings)
 
 
 if __name__ == "__main__":
