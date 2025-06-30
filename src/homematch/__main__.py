@@ -4,7 +4,7 @@ import os
 import click
 
 from homematch.generate import generate_listings, generate_neighborhoods
-from homematch.schemas import Listing, Neighborhoods
+from homematch.schemas import Listings, Neighborhoods
 
 
 @click.group
@@ -49,8 +49,8 @@ def generate(
     neighborhoods: Neighborhoods = generate_neighborhoods(
         k=n_neighborhoods, n_quirks=n_quirks
     )
-    listings: list[Listing] = []
-    for neighborhood in neighborhoods.root:
+    listings = Listings()
+    for neighborhood in neighborhoods:
         listings += generate_listings(
             neighborhood_name=neighborhood.name,
             neighbor_description=neighborhood.description,
@@ -58,7 +58,7 @@ def generate(
             k=k,
             min_listings=min_listings,
             max_listings=max_listings,
-        ).root
+        )
 
     with open(output, "w") as f:
         for listing in listings:
