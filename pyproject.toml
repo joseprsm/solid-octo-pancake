@@ -10,6 +10,9 @@ dependencies = [
     "langchain-openai>=0.3.27",
 ]
 
+[project.scripts]
+homematch = "homematch.__main__:cli"
+
 [dependency-groups]
 dev = [
     "isort>=6.0.1",
