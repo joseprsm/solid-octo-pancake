@@ -10,6 +10,7 @@ def set_env():
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         api_key = generate_random_string()
+        # NOTE: this is required. the client will not work without it.
         os.environ["OPENAI_API_KEY"] = api_key
         api_base = os.getenv("OPENAI_API_BASE", "http://localhost:11434/v1")
         embedding_model = os.getenv("EMBEDDING_MODEL", "granite-embedding")
