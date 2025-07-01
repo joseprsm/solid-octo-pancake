@@ -21,7 +21,7 @@
 
 ### Environment Variables
 Set the following environment variables to configure OpenAI access:
-- `OPENAI_API_KEY`: Your OpenAI API key (required)
+- `OPENAI_API_KEY`: (Optional) Your OpenAI API key. Not required for local Ollama usage.
 - `CHAT_MODEL`: (Optional) The chat model to use (e.g., `gpt-4.1-nano`)
 - `EMBEDDING_MODEL`: (Optional) The embedding model to use (e.g., `text-embedding-3-small`)
 - `OPENAI_API_BASE`: (Optional) The API endpoint to use. If not set, it is automatically set based on your API key (see below).
@@ -33,10 +33,15 @@ Set the following environment variables to configure OpenAI access:
 
 Example:
 ```sh
+# For cloud usage:
 export OPENAI_API_KEY=sk-...yourkey...
 export CHAT_MODEL=gpt-3.5-turbo
 export EMBEDDING_MODEL=text-embedding-ada-002
 # export OPENAI_API_BASE=http://localhost:11434/v1  # Optional, usually not needed
+
+# For local Ollama usage, you can omit OPENAI_API_KEY:
+# export CHAT_MODEL=qwen3:4b
+# export EMBEDDING_MODEL=granite-embedding
 ```
 
 ## Usage
