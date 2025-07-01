@@ -32,7 +32,7 @@ model = ChatOpenAI(
 )  # cannot be using the client, as it's trying to fetch .root_client
 
 
-embeddings = OpenAIEmbeddings(
+embeddings_model = OpenAIEmbeddings(
     model=EMBEDDING_MODEL,
     client=OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_API_BASE).embeddings,
     check_embedding_ctx_length="localhost" not in OPENAI_API_BASE,
