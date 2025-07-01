@@ -5,16 +5,22 @@ from openai import OpenAI
 
 from homematch.utils import generate_random_string
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-if not OPENAI_API_KEY:
-    OPENAI_API_KEY = generate_random_string()
-    os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
-    OPENAI_API_BASE = os.getenv("OPENAI_API_BASE", "http://localhost:11434/v1")
-elif OPENAI_API_KEY.startswith("voc-"):
-    OPENAI_API_BASE = os.getenv("OPENAI_API_BASE", "https://openai.vocareum.com/v1")
-else:
-    OPENAI_API_BASE = os.getenv("OPENAI_API_BASE")
 
+def set_openai_env_vars():
+    """Return OPENAI_API_KEY and OPENAI_API_BASE with proper defaults."""
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        api_key = generate_random_string()
+        os.environ["OPENAI_API_KEY"] = api_key
+        api_base = os.getenv("OPENAI_API_BASE", "http://localhost:11434/v1")
+    elif api_key.startswith("voc-"):
+        api_base = os.getenv("OPENAI_API_BASE", "https://openai.vocareum.com/v1")
+    else:
+        api_base = os.getenv("OPENAI_API_BASE")
+    return api_key, api_base
+
+
+OPENAI_API_KEY, OPENAI_API_BASE = set_openai_env_vars()
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "granite-embedding")
 CHAT_MODEL = os.getenv("CHAT_MODEL", "qwen3:4b")
 
