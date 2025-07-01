@@ -6,23 +6,24 @@ from openai import OpenAI
 from homematch.utils import generate_random_string
 
 
-def set_openai_env_vars():
-    """Return OPENAI_API_KEY and OPENAI_API_BASE with proper defaults."""
+def set_env():
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         api_key = generate_random_string()
         os.environ["OPENAI_API_KEY"] = api_key
         api_base = os.getenv("OPENAI_API_BASE", "http://localhost:11434/v1")
-    elif api_key.startswith("voc-"):
-        api_base = os.getenv("OPENAI_API_BASE", "https://openai.vocareum.com/v1")
+        embedding_model = os.getenv("EMBEDDING_MODEL", "granite-embedding")
+        chat_model = os.getenv("CHAT_MODEL", "qwen3:4b")
     else:
         api_base = os.getenv("OPENAI_API_BASE")
-    return api_key, api_base
+        if api_key.startswith("voc-"):
+            api_base = os.getenv("OPENAI_API_BASE", "https://openai.vocareum.com/v1")
+        embedding_model = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
+        chat_model = os.getenv("CHAT_MODEL", "gpt-4.1-nano")
+    return api_key, api_base, embedding_model, chat_model
 
 
-OPENAI_API_KEY, OPENAI_API_BASE = set_openai_env_vars()
-EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "granite-embedding")
-CHAT_MODEL = os.getenv("CHAT_MODEL", "qwen3:4b")
+OPENAI_API_KEY, OPENAI_API_BASE, EMBEDDING_MODEL, CHAT_MODEL = set_env()
 
 
 model = ChatOpenAI(
