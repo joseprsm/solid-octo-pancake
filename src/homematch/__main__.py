@@ -89,5 +89,20 @@ def embeddings(
     vector_store.add_listings(listings)
 
 
+@cli.command
+def search():
+    """Search for listings in the vector store."""
+    vector_store = VectorStore()
+
+    print("Enter your search query (or 'exit' to quit):")
+    while True:
+        query = input("> ")
+        if query.lower() == "exit":
+            break
+        results = vector_store.search(query)
+        for result in results:
+            print(result)
+
+
 if __name__ == "__main__":
     cli()
