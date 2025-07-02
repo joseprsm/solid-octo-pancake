@@ -1,10 +1,13 @@
 import os
 
 import click
+from langchain_core.documents import Document
 
 from homematch.embeddings.store import VectorStore
 from homematch.generate import generate_listings, generate_neighborhoods
-from homematch.schemas import Listings, Neighborhoods
+from homematch.schemas import Listings, Neighborhoods, SearchQuestion
+from homematch.search.chat import get_user_preferences, rank, summarise
+from homematch.search.retriever import get_retriever
 
 
 @click.group
@@ -87,6 +90,38 @@ def embeddings(
         collection_name=collection_name, persist_directory=persist_directory
     )
     vector_store.add_listings(listings)
+
+
+@cli.command
+def search():
+    """Search for listings in the vector store."""
+    messages = []
+    vector_store = VectorStore(collection_name="listings", persist_directory="./chroma")
+    retriever = get_retriever(vector_store)
+
+    result: SearchQuestion = get_user_preferences(conversation=messages)
+    while True:
+        print(f"🤖 {result.question}")
+        msg = input("> ")
+        if msg == "":
+            break
+        result.answer = msg
+        messages.append(result.model_dump())
+        result = get_user_preferences(conversation=messages)
+
+    query: str = summarise(messages).content
+
+    print(f"\nSearching for listings matching: {query}\n")
+    results: list[Document] = retriever.invoke(query)
+
+    res = rank(query, results)
+    print("\nRanked Listings:")
+    for i, listing in enumerate(res):
+        print(f"\nListing {i + 1}:")
+        print(f"Title: {listing.title}")
+        print()
+        print(f"Description: {listing.description}")
+        print(f"Score: {listing.score}")
 
 
 if __name__ == "__main__":
