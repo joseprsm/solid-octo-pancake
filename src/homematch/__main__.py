@@ -6,7 +6,7 @@ from langchain_core.documents import Document
 from homematch.embeddings.store import VectorStore
 from homematch.generate import generate_listings, generate_neighborhoods
 from homematch.schemas import Listings, Neighborhoods, SearchQuestion
-from homematch.search.chat import get_user_preferences, summarise
+from homematch.search.chat import get_user_preferences, rank, summarise
 from homematch.search.retriever import get_retriever
 
 
@@ -114,11 +114,14 @@ def search():
     print(f"\nSearching for listings matching: {query}\n")
     results: list[Document] = retriever.invoke(query)
 
-    print(f"\nFound {len(results)} matching listings:\n")
-    for i, doc in enumerate(results, 1):
-        print(f"{i}. {doc.page_content}")
-        print(f"   Metadata: {doc.metadata}")
+    res = rank(query, results)
+    print("\nRanked Listings:")
+    for i, listing in enumerate(res):
+        print(f"\nListing {i + 1}:")
+        print(f"Title: {listing.title}")
         print()
+        print(f"Description: {listing.description}")
+        print(f"Score: {listing.score}")
 
 
 if __name__ == "__main__":

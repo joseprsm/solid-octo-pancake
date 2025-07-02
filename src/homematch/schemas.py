@@ -79,3 +79,20 @@ class SearchQuestion(BaseModel):
     answer: str = Field(
         default=None, description="The user's answer to the question, if provided"
     )
+
+
+class RankedListing(BaseModel):
+    title: str = Field(description="The title of the real estate listing")
+    description: str = Field(
+        description="A description of the real estate listing, including its features and amenities"
+    )
+    score: float = Field(
+        description="The score of the listing based on its relevance to the user's preferences"
+    )
+
+
+class RankedListings(_BaseList):
+    root: list[RankedListing] = Field(
+        default=[],
+        description="A list of ranked real estate listings, each with a score based on its relevance to the user's preferences",
+    )
