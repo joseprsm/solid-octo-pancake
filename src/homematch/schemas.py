@@ -70,3 +70,12 @@ class Listings(_BaseList):
     def write(self, file_path: str):
         listings: list[dict] = self.model_dump(mode="json")["root"]
         write_jsonl(file_path, listings)
+
+
+class SearchQuestion(BaseModel):
+    question: str = Field(
+        description="The question to ask the user about their preferences"
+    )
+    answer: str = Field(
+        default=None, description="The user's answer to the question, if provided"
+    )

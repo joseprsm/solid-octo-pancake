@@ -1,10 +1,13 @@
 import os
 
 import click
+from langchain_core.documents import Document
 
 from homematch.embeddings.store import VectorStore
 from homematch.generate import generate_listings, generate_neighborhoods
-from homematch.schemas import Listings, Neighborhoods
+from homematch.schemas import Listings, Neighborhoods, SearchQuestion
+from homematch.search.chat import get_user_preferences, summarise
+from homematch.search.retriever import get_retriever
 
 
 @click.group
@@ -92,16 +95,30 @@ def embeddings(
 @cli.command
 def search():
     """Search for listings in the vector store."""
-    vector_store = VectorStore()
+    messages = []
+    vector_store = VectorStore(collection_name="listings", persist_directory="./chroma")
+    retriever = get_retriever(vector_store)
 
-    print("Enter your search query (or 'exit' to quit):")
+    result: SearchQuestion = get_user_preferences(conversation=messages)
     while True:
-        query = input("> ")
-        if query.lower() == "exit":
+        print(f"🤖 {result.question}")
+        msg = input("> ")
+        if msg == "":
             break
-        results = vector_store.search(query)
-        for result in results:
-            print(result)
+        result.answer = msg
+        messages.append(result.model_dump())
+        result = get_user_preferences(conversation=messages)
+
+    query: str = summarise(messages).content
+
+    print(f"\nSearching for listings matching: {query}\n")
+    results: list[Document] = retriever.invoke(query)
+
+    print(f"\nFound {len(results)} matching listings:\n")
+    for i, doc in enumerate(results, 1):
+        print(f"{i}. {doc.page_content}")
+        print(f"   Metadata: {doc.metadata}")
+        print()
 
 
 if __name__ == "__main__":
