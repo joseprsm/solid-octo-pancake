@@ -93,3 +93,58 @@ See all available options with:
 ```sh
 homematch embeddings --help
 ```
+
+### Search for listings example
+
+The search feature provides an interactive conversational interface to find listings that match your preferences. It uses the generated embeddings to perform semantic search and ranks results based on your specific requirements.
+
+Search for listings interactively:
+```sh
+homematch search
+```
+
+**How it works:**
+
+1. **Interactive Conversation**: The system asks you questions about your preferences, such as:
+   - How big do you want your house to be?
+   - What are the 3 most important things for you in choosing this property?
+   - Which amenities would you like?
+   - Which transportation options are important to you?
+   - How urban do you want your neighborhood to be?
+
+2. **Semantic Search**: Your responses are summarized into a search query and used to find relevant listings from the vector store using semantic similarity.
+
+3. **Intelligent Ranking**: Results are ranked and personalized based on your preferences, with scores indicating how well each listing matches your requirements.
+
+4. **Rich Results**: Each result includes:
+   - A personalized title
+   - A tailored description highlighting how it matches your preferences
+   - A relevance score
+
+**Example interaction:**
+```
+🤖 How big do you want your house to be?
+> I'm looking for a 2-3 bedroom apartment, around 80-100 square meters
+
+🤖 What are 3 most important things for you in choosing this property?
+> Good public transport, close to parks, and a modern kitchen
+
+🤖 Which amenities would you like?
+> Gym, parking space, and balcony
+
+🤖 [Press Enter to search when done]
+>
+
+Searching for listings matching: 2-3 bedroom apartment, 80-100 sqm, good public transport, close to parks, modern kitchen, gym, parking, balcony
+
+Ranked Listings:
+Listing 1:
+Title: Modern 2BR Apartment with Gym & Parking Near Park
+Description: This 85 sqm apartment perfectly matches your needs with 2 bedrooms, a modern kitchen, and excellent public transport connections...
+Score: 0.92
+```
+
+**Prerequisites for search:**
+- Listings must be generated first (`homematch generate`)
+- Embeddings must be created (`homematch embeddings`)
+- Environment variables should be configured for your preferred LLM model
