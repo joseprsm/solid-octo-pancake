@@ -1,0 +1,20 @@
+HomeMatch Search Results
+============================================================
+
+Search Query: I'm looking for a 2-bedroom, pet- and kid-friendly home within a $300K budget, located in a vibrant, kid-friendly community near the beach, preferably within walking distance.
+------------------------------------------------------------
+
+1. Charming 2-Bedroom Beachside Bungalow in Sunset Ripple
+   Score: 9.50/10
+   Description: This delightful 2-bedroom, pet-friendly home within your $300K budget is located in Sunset Ripple, a vibrant, kid-friendly community just a two-minute stroll to the sandy beaches. It features a sun-drenched porch perfect for family gatherings, matching your preference for a home close to the beach, and is situated in a neighborhood known for its lively street art and welcoming atmosphere.
+--------------------------------------------------
+
+2. Cozy 2-Bedroom Home in Sunset Ripple Near the Beach
+   Score: 9.00/10
+   Description: A perfect fit for your search, this pet- and kid-friendly 2-bedroom home in Sunset Ripple offers a community vibrant with local artists and surfers. The property is within walking distance to the coastline, and its charming features include a cozy living area and a neighborhood famed for its colorful street art, aligning well with your desire for a vibrant, beach-adjacent community.
+--------------------------------------------------
+
+3. Vintage 2-Bedroom Lighthouse Cottage Close to the Beach in Sunset Ripple
+   Score: 8.50/10
+   Description: Located in Sunset Ripple, this vintage 2-bedroom home is within walking distance of the beach and is pet-friendly. Its unique lighthouse setting and panoramic views make it an excellent choice for a family seeking a community near the coast with a quirky, artistic vibe, matching your preference for a vibrant, kid-friendly neighborhood close to the beach.
+--------------------------------------------------
