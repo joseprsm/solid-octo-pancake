@@ -103,7 +103,7 @@ def search():
     while True:
         print(f"🤖 {result.question}")
         msg = input("> ")
-        if msg == "":
+        if msg == "/bye" or msg == "":
             break
         result.answer = msg
         messages.append(result.model_dump())

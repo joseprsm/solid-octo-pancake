@@ -1,4 +1,5 @@
 import json
+import random
 
 from langchain_core.documents import Document
 
@@ -7,7 +8,6 @@ from homematch.schemas import RankedListings, SearchQuestion
 
 
 def get_user_preferences(questions: list[str] = None, conversation: str = None) -> str:
-    """Generate a system prompt for asking property preference questions."""
     conversation = conversation or []
 
     questions = questions or [
@@ -17,6 +17,7 @@ def get_user_preferences(questions: list[str] = None, conversation: str = None) 
         "Which transportation options are important to you?",
         "How urban do you want your neighborhood to be?",
     ]
+    random.shuffle(questions)
 
     prompt = (
         "You are a helpful real estate assistant helping users find their perfect home. "
