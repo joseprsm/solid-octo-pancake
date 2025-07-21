@@ -1,4 +1,6 @@
+import json
 import os
+from datetime import datetime
 
 import click
 from langchain_core.documents import Document
@@ -93,7 +95,13 @@ def embeddings(
 
 
 @cli.command
-def search():
+@click.option(
+    "--output",
+    "-o",
+    default=None,
+    help="Output file for search results (default: search_results.txt)",
+)
+def search(output: str = None):
     """Search for listings in the vector store."""
     messages = []
     vector_store = VectorStore(collection_name="listings", persist_directory="./chroma")
@@ -114,14 +122,49 @@ def search():
     print(f"\nSearching for listings matching: {query}\n")
     results: list[Document] = retriever.invoke(query)
 
+    # Save raw search results to JSONL file
+    results_file = (
+        f"raw_search_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jsonl"
+    )
+    with open(results_file, "w", encoding="utf-8") as f:
+        # Write query as first line
+        f.write(
+            json.dumps({"query": query, "timestamp": datetime.now().isoformat()}) + "\n"
+        )
+
+        # Write each result as a separate JSON line
+        for doc in results:
+            result_data = {"page_content": doc.page_content, "metadata": doc.metadata}
+            f.write(json.dumps(result_data) + "\n")
+
+    print(f"Raw search results saved to {results_file}")
+
     res = rank(query, results)
     print("\nRanked Listings:")
-    for i, listing in enumerate(res):
-        print(f"\nListing {i + 1}:")
-        print(f"Title: {listing.title}")
-        print()
-        print(f"Description: {listing.description}")
-        print(f"Score: {listing.score}")
+
+    output_file = (
+        output or f"search_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+    )
+    with open(output_file, "w", encoding="utf-8") as f:
+        f.write("HomeMatch Search Results\n")
+        f.write("=" * 60 + "\n\n")
+        f.write(f"Search Query: {query}\n")
+        f.write("-" * 60 + "\n\n")
+
+        for i, listing in enumerate(res, 1):
+            f.write(f"{i}. {listing.title}\n")
+            f.write(f"   Score: {listing.score:.2f}/10\n")
+            f.write(f"   Description: {listing.description}\n")
+            f.write("-" * 50 + "\n\n")
+
+    print(f"\nSearch results saved to {output_file}")
+
+    # Also print the results to console
+    for i, listing in enumerate(res.root, 1):
+        print(f"{i}. {listing.title}")
+        print(f"   Score: {listing.score:.2f}")
+        print(f"   Description: {listing.description}")
+        print("-" * 40)
 
 
 if __name__ == "__main__":
